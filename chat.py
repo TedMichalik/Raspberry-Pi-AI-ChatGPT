@@ -6,14 +6,13 @@ from google.oauth2.service_account import Credentials
 import openai
 
 # Path to your Google Cloud JSON key file
-key_path = "//home//pi//Desktop//Python Code//keyfile.json" # Path to your JSON File
+key_path = os.environ['GOOGLE_JSON'] # Path to your JSON File
 
 # Google Speech-to-Text and Text-to-Speech credentials
 credentials = Credentials.from_service_account_file(key_path)
 
 # OpenAI API key
-openai_api_key = '' # Your Openai API Key
-openai.api_key = openai_api_key
+openai.api_key = os.environ['OPENAI_KEY'] # Your Openai API Key
 
 # Google Speech-to-Text client
 speech_client = speech.SpeechClient(credentials=credentials)

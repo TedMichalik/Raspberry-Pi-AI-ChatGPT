@@ -56,7 +56,7 @@ else:
     transcription = ""
 
 # Send transcription to OpenAI
-openai_response = client.completion.create(
+openai_response = client.completions.create(
   engine="text-davinci-003",
   prompt=transcription,
   max_tokens=50

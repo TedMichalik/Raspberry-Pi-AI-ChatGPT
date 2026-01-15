@@ -3,7 +3,7 @@ import pyaudio
 from google.cloud import speech_v1 as speech
 from google.cloud import texttospeech
 from google.oauth2.service_account import Credentials
-import openai
+from openai import OpenAI
 
 # Path to your Google Cloud JSON key file
 key_path = os.environ['GOOGLE_JSON'] # Path to your JSON File
@@ -11,14 +11,14 @@ key_path = os.environ['GOOGLE_JSON'] # Path to your JSON File
 # Google Speech-to-Text and Text-to-Speech credentials
 credentials = Credentials.from_service_account_file(key_path)
 
-# OpenAI API key
-openai.api_key = os.environ['OPENAI_KEY'] # Your Openai API Key
-
 # Google Speech-to-Text client
 speech_client = speech.SpeechClient(credentials=credentials)
 
 # Google Text-to-Speech client
 tts_client = texttospeech.TextToSpeechClient(credentials=credentials)
+
+# OpenAI client
+client = OpenAI(api_key=os.environ['OPENAI_KEY'])
 
 # Audio configuration
 FORMAT = pyaudio.paInt16
@@ -56,7 +56,7 @@ else:
     transcription = ""
 
 # Send transcription to OpenAI
-openai_response = openai.Completion.create(
+openai_response = client.completion.create(
   engine="text-davinci-003",
   prompt=transcription,
   max_tokens=50
